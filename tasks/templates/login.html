@@ -1,0 +1,60 @@
+{% extends 'homepage.html' %}
+{% load static %}
+
+{% block titulo %} Login {% endblock %}
+
+
+{% block css %}
+  <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block body %}
+<div class="container">
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Login</li>
+        </ol>
+      </nav>
+      <h1 class="form-signin-heading"> Fazer Login </h1>
+      <br>
+      {% if user.is_authenticated %}
+      <div class="alert alert-danger" style="padding: 3rem 2rem 5rem 2rem;" role="alert">
+          <h2> Atenção! </h2>
+          <p> Você já está autencado. Para acessar outra conta, você deve fazer <a class="alert-link" href="{% url 'logout' %}?next={% url 'login' %}"> logout </a> primeiro. </p>
+          <p> Ou clique <a class="alert-link" href="{% url 'home' %}"> aqui </a> para ir para a Home. </p>    
+          <br>
+          <hr>
+          <small> Não achou o que procurava? Clique <a href="#" class="alert-link" data-toggle="modal" data-target="#help"> aqui </a> para pedir ajuda.</small>
+      </div>
+      
+      {% else %}
+      <div class="row">
+        <div class="col-sm-12 col-md-7">
+          <h4> Use o Google para autenticar-se </h4>
+          <a class="btn btn-lg btn-block btn-danger" href="{% url 'social:begin' 'google-oauth2' %}"> 
+            Login com o Google <i class="fa fa-google"></i> 
+          </a>
+      </div>
+      <div class="col-sm-12 col-md-1">
+        <p style="padding:6rem 0.5rem;font-weight:700;text-align:center;"> OU </p>
+      </div>
+      <div class="col-sm-12 col-md-4">
+      <form class="form-signin">
+        <h4 class="form-signin-heading"> Entre com as informações </h4> 
+        <label for="inputEmail" class="sr-only">E-mail</label>
+        <input id="inputEmail" class="form-control" placeholder="E-mail" required="" autofocus="" type="email">
+        <label for="inputPassword" class="sr-only">Senha</label>
+        <input id="inputPassword" class="form-control" placeholder="Senha" required="" type="password">
+        <div class="checkbox">
+          <label>
+            <input value="remember-me" checked="checked" type="checkbox"> Guardar minha autenticação
+          </label>
+        </div>
+        <button class="btn btn-lg btn-outline-primary btn-block" type="submit"> Logar </button>
+      </form>
+    </div>
+    </div>
+      {% endif %}
+    </div>
+{% endblock %}

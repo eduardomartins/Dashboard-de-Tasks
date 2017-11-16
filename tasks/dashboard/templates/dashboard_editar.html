@@ -1,0 +1,86 @@
+{% extends 'dashboard_base.html' %}
+{% load static bootstrap4 %}
+
+{% block conteudo %}
+
+{% if salvo %}
+<div class="alert alert-success">
+    <strong> Tarefa salva com sucesso </strong>
+    <p> Clique <a href="{% url 'dashboard:index' %}" class="alert-link"> aqui </a> para voltar ao dashboard </p>
+</div>
+{% endif %}
+
+<div class="panel"> 
+    <div class="row justify-content-md-center"> 
+        <div class="col-sm-12 col-md-6"> 
+            <div class="card">
+                <h4 class="card-header"> Editar tarefa </h4>
+                <div class="card-body">
+                    <form method="POST" action="."  enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% bootstrap_form form_task %}
+                        <h5> Anexo </h5>
+                        {% for form in formset_anexo %}
+                            {{ form }}
+                        {% endfor %}
+                        <hr>
+                        <button type="submit" class="btn btn-primary btn-block"> Salvar </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% for tarefa in tarefas %}
+        <div class="col-sm-12 col-md-6 col-lg-4"> 
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"> {{ tarefa.nome }}    <sapn class="badge badge-warning"> {{ tarefa.status }} </span> </h4>
+                    <p class="card-text">
+                        {{ tarefa.descricao }}
+                    </p>
+                 
+                    <h4 class="card-title"> Anexos  <span class="badge badge-secondary"> {{ tarefa.anexo_set.all.count }} </span></h4>
+                    {% for anexo in tarefa.anexo_set.all %}
+                        <a href="{{ anexo.arquivo.url }}" class="card-link"> {{ anexo.arquivo }}  </a>
+                    {% endfor %}
+                    <hr>
+                    <a href="#" data-url="{% url 'dashboard:excluir-tarefa' pk=tarefa.pk  %}" data-toggle="modal" data-target="#excluir" class="btn btn-danger"> Excluir </a>
+                    <a class="btn btn-secondary" href="{% url 'dashboard:editar-tarefa' pk=tarefa.pk  %}"> Editar </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="modal fade" id="excluir" tabindex=-1 role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title"> Deseja realmente excluir a terefa?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p> Depois de excluído, não é será mais possível recuperar os dados</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-danger" href="" id="target-url"> Excluir </a>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancelar </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock conteudo %}
+
+{% block scripts %}
+<script>
+        $(document).ready(function(){
+            $('a[data-target="#excluir"]').click(function(event){
+                $("#target-url").attr('href', $(this).attr("data-url"))
+            });
+        });
+    </script>
+    
+{% endblock %}

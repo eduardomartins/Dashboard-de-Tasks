@@ -1,0 +1,59 @@
+{% extends 'homepage.html'%}
+{% load static %}
+
+{% block titulo %} Dashboard {% endblock %}
+
+{% block css %}
+<link href="{% static 'css/base.css' %}" rel="stylesheet">
+{% endblock css %}
+
+
+{% block body %}
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand"  href="#"> Olá, {{ user.username }} </a>
+      <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'home' %}"> Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'cadastro' %}"> Cadastro </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}"> Logout </a>
+            </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-toggle="modal" data-target="#help"> Ajuda </a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0" method="GET" action=".">
+          <input name="query" class="form-control mr-sm-2" placeholder="Procurar por uma tarefa..." aria-label="Search" type="text">
+          <button class="btn btn-primary my-2 my-sm-0" type="submit">Buscar </button>
+        </form>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+        <ul class="nav nav-pills flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'dashboard:index' %}"> Tarefas <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </nav>
+
+      <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+      <h1>Dashboard</h1>
+
+    {% block conteudo %}
+
+    {% endblock conteudo %}
+
+  {% endblock %}
