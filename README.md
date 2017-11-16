@@ -2,7 +2,7 @@
 
 ### Prerequisitos
 
-Ter instalado o vertualenv 
+Ter instalado o virtualenv 
 
 ```
 $ [sudo] pip install virtualenv
@@ -10,7 +10,7 @@ $ [sudo] pip install virtualenv
 
 [link de instalção do virtual env](https://virtualenv.pypa.io/en/stable/installation/)
 
-### Installing
+### Instalação
 
 Iniciar o virtual env
 
@@ -31,11 +31,12 @@ $ pip install -r requirements.txt
 ```
 
 
-## Para executar
+### Para executar
 
 Entre na pasta tasks
 
 tasks/
+
 ├── manage.py
 
 
@@ -50,14 +51,14 @@ Executar esse comando para iniciar o servidor web de testes
 $ python manage.py runserver
 ```
 
-NOTA: a porta 8000 e localhost devem estar disponíveis
+**NOTA: a porta 8000 e localhost devem estar disponíveis**
 
 Agora é só abrir o browser no endereço: 
 
 [http://localhost:8000](http://localhost:8000)
 
 
-## Authors
+### Authors
 
 * **Eduardo Sant'Anna Martins** - *Initial work* - [eduardimartins](https://github.com/eduardomartins)
 
