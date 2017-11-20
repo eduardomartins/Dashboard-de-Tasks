@@ -58,7 +58,36 @@ Agora é só abrir o browser no endereço:
 [http://localhost:8000](http://localhost:8000)
 
 ## Modo de uso
-[![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/eduardomartins/Dashboard-de-Tasks/master/docs/img/arquivos3.png)]
+
+Primeiro digite o endereço no browser [http://localhost:8000](http://localhost:8000).
+
+Clique no no boto para acessar o Dashboard
+![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/eduardomartins/Dashboard-de-Tasks/master/docs/img/home.png)
+
+Clique para fazer o login no Google+
+![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/eduardomartins/Dashboard-de-Tasks/master/docs/img/login.png)
+
+Você será redirecionado para o Dashboard
+![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/eduardomartins/Dashboard-de-Tasks/master/docs/img/dashboard.png)
+
+Crie uma nova tarefa clicando no botão "Nova tarefa" e preencha 
+![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/eduardomartins/Dashboard-de-Tasks/master/docs/img/nova-tarefa.png)
+
+Selecione os arquivos
+![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/eduardomartins/Dashboard-de-Tasks/master/docs/img/arquivos3.png)
+
+Nova terefa salva
+![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/eduardomartins/Dashboard-de-Tasks/master/docs/img/nova-salva.png)
+
+Click em "Editar" a tarefa
+![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/eduardomartins/Dashboard-de-Tasks/master/docs/img/editar.png)
+
+Edição salva
+![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/eduardomartins/Dashboard-de-Tasks/master/docs/img/edicao-salva.png)
+
+Clique no botão excluir para excluir uma tarefa
+![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/eduardomartins/Dashboard-de-Tasks/master/docs/img/excluir.png)
+
 
 ### Authors
 
