@@ -57,6 +57,8 @@ Agora é só abrir o browser no endereço:
 
 [http://localhost:8000](http://localhost:8000)
 
+## Modo de uso
+[Alt text](https://raw.githubusercontent.com/eduardomartins/Dashboard-de-Tasks/master/docs/img/arquivos3.png "Upload dos arquivos")
 
 ### Authors
 
