@@ -11,11 +11,12 @@ class TaskForm(forms.ModelForm):
         exclude = ('finalizada_por', 'criado_por', 'status')
 
 
-class AnexoForm(forms.ModelForm):
+class AnexoForm(forms.Form):
     """ """
-    class Meta:
-        model = Anexo
-        exclude = ('tarefa',)
-        widgets = {
-            'observacao': forms.Textarea(attrs={'class': 'form-control'}),
-        }
+    anexos = forms.FileField(
+        required=False,
+        help_text="Selecione um ou mais arquivos",
+        widget=forms.FileInput(attrs={'multiple': True})
+    )
+
+    

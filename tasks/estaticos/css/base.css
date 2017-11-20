@@ -76,3 +76,24 @@ body {
    background: #CACACA;
    margin: 1rem 0 3rem 0;
  }
+
+
+ .chart{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin: 2rem auto;
+}
+.chart p {
+  font-size: 50pt;
+  margin: 0 auto;
+  padding: 25% 0;
+}
+.chart.primary{
+  color: white;
+  background: #007bff;
+}
+.chart.success{
+  color: white;
+  background: #28a745;
+}

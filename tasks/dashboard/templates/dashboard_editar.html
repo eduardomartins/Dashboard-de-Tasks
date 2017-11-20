@@ -13,42 +13,74 @@
 <div class="panel"> 
     <div class="row justify-content-md-center"> 
         <div class="col-sm-12 col-md-6"> 
+        {% if salvo %}
+        <div class="card">
+                <h4 class="card-header"> {{ tarefa.nome }}   <span class="badge badge-warning float-right"> <i class="fa fa-spinner" aria-hidden="true"></i>
+                    {{ tarefa.status }} </span></h4>    
+                <div class="card-body">
+                    <p class="card-text">
+                        {{ tarefa.descricao }}
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                        <li class="list-group-item"> <strong> Prioridade: </strong> {{ tarefa.prioridade }} </li>
+                    <li class="list-group-item"> <strong> Criado por: </strong> {{ tarefa.criado_por }} </li>
+                        
+  
+                </ul>
+                
+                <div class="card-body">
+                    {% if tarefa.anexo_set.all.count > 0 %}
+                    <h5 class="card-title"> Anexos  <span class="badge badge-info"> {{ tarefa.anexo_set.all.count }} </span></h5>
+                        {% for anexo in tarefa.anexo_set.all %}
+                            <a href="{{ anexo.arquivo.url }}" class="btn btn-clear btn-block text-left" title="Clique para ver o anexo"> 
+                                <i class="fa fa-file" aria-hidden="true"></i> {{ anexo.filename }} 
+                            </a>
+                        {% endfor %}
+                        {% endif %}
+                    <br>
+                    <a class="btn btn-primary" href="{% url 'dashboard:index' %}"> <i class="fa fa-arrow-left fa-fw"></i> Voltar ao dashboard </a>         
+                    <a class="btn btn-secondary" href="{% url 'dashboard:editar-tarefa' pk=tarefa.pk  %}"> <i class="fa fa-pencil fa-fw"></i> Editar </a>
+                </div>
+            </div>
+         {% else %}        
             <div class="card">
                 <h4 class="card-header"> Editar tarefa </h4>
                 <div class="card-body">
                     <form method="POST" action="."  enctype="multipart/form-data">
                         {% csrf_token %}
                         {% bootstrap_form form_task %}
-                        <h5> Anexo </h5>
-                        {% for form in formset_anexo %}
-                            {{ form }}
-                        {% endfor %}
-                        <hr>
+                        <h5 class="card-title"> Anexos  <span class="badge badge-secondary"> {{ tarefa.anexo_set.all.count }} </span></h5>
+                        {% for anexo in tarefa.anexo_set.all %}
+                            
+                        <div class="dropdown">
+                            <a href="{{ anexo.arquivo.url }}" class="btn btn-clear btn-sm text-left" title="Clique para ver o anexo"> 
+                                <i class="fa fa-file" aria-hidden="true"></i> {{ anexo.filename }}
+                             </a>    
+                            <button class="btn  btn-outline-danger btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-trash-o fa-fw"></i>  Excluir arquivo
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <p class="dropdown-header"> Tem certeza que deseja realmente excluiro arquivo? </p>
+                                <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                    <a class="dropdown-item" href="{% url 'dashboard:excluir-anexo' pk=anexo.id %}"> <span class="btn btn-danger">Sim</span> </a>
+                                    <a class="dropdown-item" href="javascript:void(0);"> <span class="btn btn-secondary"> Não</span> </a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <br>
+                            {% endfor %}
+                        <br>
+                        {% bootstrap_form form_anexo %}
+                        <br>
                         <button type="submit" class="btn btn-primary btn-block"> Salvar </button>
                     </form>
                 </div>
             </div>
+        
+            {% endif %}
         </div>
-        {% for tarefa in tarefas %}
-        <div class="col-sm-12 col-md-6 col-lg-4"> 
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title"> {{ tarefa.nome }}    <sapn class="badge badge-warning"> {{ tarefa.status }} </span> </h4>
-                    <p class="card-text">
-                        {{ tarefa.descricao }}
-                    </p>
-                 
-                    <h4 class="card-title"> Anexos  <span class="badge badge-secondary"> {{ tarefa.anexo_set.all.count }} </span></h4>
-                    {% for anexo in tarefa.anexo_set.all %}
-                        <a href="{{ anexo.arquivo.url }}" class="card-link"> {{ anexo.arquivo }}  </a>
-                    {% endfor %}
-                    <hr>
-                    <a href="#" data-url="{% url 'dashboard:excluir-tarefa' pk=tarefa.pk  %}" data-toggle="modal" data-target="#excluir" class="btn btn-danger"> Excluir </a>
-                    <a class="btn btn-secondary" href="{% url 'dashboard:editar-tarefa' pk=tarefa.pk  %}"> Editar </a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
     </div>
 </div>
 

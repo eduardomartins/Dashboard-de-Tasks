@@ -1,3 +1,5 @@
+# coding: UTF-8
+
 """
 Django settings for tasks project.
 
@@ -19,19 +21,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&6va$es7n&6*!!8obt&snh=+r0fu$&omp^m5yw&dr%r6m&^e6m'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*'
+]
 
 LOGIN_REDIRECT_URL = 'dashboard:index'
 
 LOGIN_URL = 'login'
 
 LOGOUT_URL = 'logout'
+
+
+# Configurações do Storage 
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 
 INSTALLED_APPS = [
@@ -84,9 +89,6 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '286668901578-i1nvudv9tu4ovugi1v41alq0k06pprsj.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'MvQXurjpYQZBvMSjdsm-OgZc'
 
 WSGI_APPLICATION = 'tasks.wsgi.application'
 

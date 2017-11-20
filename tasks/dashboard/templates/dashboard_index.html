@@ -2,20 +2,25 @@
 {% load static bootstrap4 %}
 
 {% block conteudo %}
+<div  style="margin: 1rem 2rem;">
 <section class="row text-center placeholders">
-        <div class="col-6 col-sm-6 placeholder">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail" width="200" height="200">
-          <h4>Pendentes </h4>
+        <div class="col-sm-12 col-md-6 placeholder">
+            <div class="chart primary">
+                <p> {{ processadas.count  }} </p>
+                </div>
+          <h4> Processadas </h4>
           <div class="text-muted"> Tarefas pendentes </div>
         </div>
-        <div class="col-6 col-sm-6 placeholder">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail" width="200" height="200">
-          <h4>Finalizadas</h4>
+        <div class="col-sm-12 col-md-6 placeholder">
+            <div class="chart success">
+                <p> {{ finalizadas.count }} </p>
+            </div>
+          <h4> Done </h4>
           <span class="text-muted"> Tarefas finalizadas </span>
         </div>
       </section>
 <h2> Tarefas </h2>
-
+<hr>
 {% if not tarefas %}
     <div class="alert alert-warning">
         <strong> Você ainda não possui nenhuma tarefa </strong>
@@ -28,23 +33,42 @@
 {% endif %}
 
 <div class="panel"> 
+        <div class="card">
+                <div class="card-body">
+        <ul class="nav nav-pills justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Todas as tarefas </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Minhas tarefas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Tarefas processadas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Tarefas finalizadas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#"> <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+                Ordenar por prioridade </a>
+        </li>
+      </ul>
+    </div>
+    </div>
     <div class="row"> 
         <div class="col-sm-12 col-md-6 col-lg-4"> 
             <div class="card">
-                <h4 class="card-header"> Nova tarefa </h4>
-                <div class="card-body">
-                    <a class="btn btn-primary btn-block btn-lg" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Adicionar tarefa <i class="fa fa-plus" aria-hidden="true"></i>                            
-                    </a>
-                    <hr>
-                    <div class="collapse" id="collapseExample">
+                <h4 class="card-header">  
+                    <a class="btn btn-danger btn-block" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Nova tarefa <i class=" fa fa-chevron-circle-down" aria-hidden="true"></i>                            
+                    </a> 
+                </h4>
+                <div class="card-body">   
+                     <div class="collapse" id="collapseExample">
                     <form method="POST" action="."  enctype="multipart/form-data">
                         {% csrf_token %}
                         {% bootstrap_form form_task %}
-                        <h5> Anexo </h5>
-                        {% for form in formset_anexo %}
-                            {{ form }}
-                        {% endfor %}
+                        {% bootstrap_form form_anexo %}
                         <hr>
                         <button type="submit" class="btn btn-primary btn-block"> Salvar </button>
                     </form>
@@ -53,26 +77,32 @@
             </div>
         </div>
         {% for tarefa in tarefas %}
-        <div class="col-sm-12 col-md-6 col-lg-4"> 
+        <div class="col-sm-12 col-md-6 col-lg-4">
             <div class="card">
+                <h4 class="card-header"> {{ tarefa.nome }}   <span class="badge badge-warning float-right"> <i class="fa fa-spinner" aria-hidden="true"></i>
+                    {{ tarefa.status }} </span></h4>    
                 <div class="card-body">
-                    <h4 class="card-title"> {{ tarefa.nome }}    <sapn class="badge badge-warning"> {{ tarefa.status }} </span> </h4>
                     <p class="card-text">
                         {{ tarefa.descricao }}
                     </p>
                 </div>
                 <ul class="list-group list-group-flush">
+                        <li class="list-group-item"> <strong> Prioridade: </strong> {{ tarefa.prioridade }} </li>
                     <li class="list-group-item"> <strong> Criado por: </strong> {{ tarefa.criado_por }} </li>
-                    <li class="list-group-item"> <strong> Prioridade: </strong> {{ tarefa.prioridade }} </li>
+                        
+  
                 </ul>
+                
                 <div class="card-body">
-                    <h4 class="card-title"> Anexos  <span class="badge badge-secondary"> {{ tarefa.anexo_set.all.count }} </span></h4>
+                    {% if tarefa.anexo_set.all.count > 0 %}
+                    <h5 class="card-title"> Anexos  <span class="badge badge-info"> {{ tarefa.anexo_set.all.count }} </span></h5>
                     {% for anexo in tarefa.anexo_set.all %}
-                        <a href="{{ anexo.arquivo.url }}" class="card-link"> {{ anexo.arquivo }}  </a>
+                        <a href="{{ anexo.arquivo.url }}" class="btn btn-clear btn-block text-left" title="Clique para ver o anexo"> <i class="fa fa-file" aria-hidden="true"></i> {{ anexo.filename }} </a>
                     {% endfor %}
-                    <hr>
-                    <a href="#" data-url="{% url 'dashboard:excluir-tarefa' pk=tarefa.pk  %}" data-toggle="modal" data-target="#excluir" class="btn btn-danger"> Excluir </a>
-                    <a class="btn btn-secondary" href="{% url 'dashboard:editar-tarefa' pk=tarefa.pk  %}"> Editar </a>
+                    {% endif %}
+                    <br>
+                    <a href="#" data-url="{% url 'dashboard:excluir-tarefa' pk=tarefa.pk  %}" data-toggle="modal" data-target="#excluir" class="btn btn-danger">   <i class="fa fa-trash-o fa-lg"></i>  Excluir </a>
+                    <a class="btn btn-secondary" href="{% url 'dashboard:editar-tarefa' pk=tarefa.pk  %}"> <i class="fa fa-pencil fa-fw"></i> Editar </a>
                 </div>
             </div>
         </div>
@@ -99,7 +129,7 @@
         </div>
     </div>
 </div>
-
+</div>
 {% endblock conteudo %}
 
 {% block scripts %}

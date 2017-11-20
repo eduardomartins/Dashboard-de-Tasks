@@ -16,8 +16,8 @@ class Task(models.Model):
         (5, '5 - Urgente'),
     )
     STATUS = (
-        ('processada', 'processada'),
-        ('done', 'done'),
+        ('processada', 'Tarefa Processada'),
+        ('done', 'Tarefa finalizada - done'),
     )
     nome = models.CharField(
         verbose_name="Nome",
@@ -35,7 +35,7 @@ class Task(models.Model):
     status = models.CharField(
         choices=STATUS,
         max_length=64   ,
-        default="Processada",
+        default="processada",
     )
     finalizada_por = models.ForeignKey(
         User,
@@ -59,8 +59,15 @@ class Task(models.Model):
 
 
 def user_directory_path(instance, filename):
-    return os.path.join('anexos', filename)
+    print instance.tarefa.id
+    return os.path.join('anexos', str(instance.tarefa.id), filename)
+
+
 
 class Anexo(models.Model):
     tarefa = models.ForeignKey(Task)
     arquivo = models.FileField(upload_to=user_directory_path)
+
+
+    def filename(self):
+        return os.path.basename(self.arquivo.name)

@@ -12,6 +12,8 @@ from django.contrib.auth.decorators import login_required
 
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('dashboard:index'))
     return render(request, 'login.html')
 
 
