@@ -80,18 +80,35 @@ def editar(request, pk):
 
 
 @login_required
-def excluir(request, pk):
-    """ """
-    tarefa = get_object_or_404(Task, id=pk)
-    tarefa.delete()
+def excluir(request):
+    """ Exclui uma tarefa """
+    if request.method == 'POST':
+        pk = request.POST.get('pk')   
+        tarefa = get_object_or_404(Task, id=pk)
+        tarefa.delete()
+
     return redirect(reverse("dashboard:index"))
 
 
+@login_required
+def status(request):
+    """ """
+    if request.method == 'POST':
+        pk = request.POST.get('pk')
+        status = request.POST.get('status')
+        tarefa = get_object_or_404(Task, id=pk)
+        tarefa.status = status
+        tarefa.save()   
+
+    return redirect(reverse("dashboard:index"))
+
 
 @login_required
-def excluir_anexo(request, pk):
+def excluir_anexo(request):
     """ """
+    if request.method == 'POST':
+        pk = request.POST.get('pk')
+        anexo = get_object_or_404(Anexo, id=pk)
+        anexo.delete()
 
-    anexo = get_object_or_404(Anexo, id=pk)
-    anexo.delete()
     return redirect(reverse("dashboard:editar-tarefa", kwargs=dict(pk=anexo.tarefa.id)))   

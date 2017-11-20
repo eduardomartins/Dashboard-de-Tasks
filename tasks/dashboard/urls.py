@@ -21,6 +21,8 @@ from django.conf.urls import url
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^editar/(?P<pk>[0-9]+)/$', views.editar, name='editar-tarefa'),
-    url(r'^excluir/(?P<pk>[0-9]+)/$', views.excluir, name='excluir-tarefa'),
-    url(r'^excluir/anexo/(?P<pk>[0-9]+)/$', views.excluir_anexo, name='excluir-anexo'),
+    url(r'^editar/done/$', views.status, name='status-tarefa'),
+    url(r'^excluir/tarefa/$', views.excluir, name='excluir-tarefa'),
+    url(r'^excluir/tarefa/anexo/$', views.excluir_anexo, name='excluir-anexo'),
+    
 ]

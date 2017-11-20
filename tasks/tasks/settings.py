@@ -36,7 +36,7 @@ LOGOUT_URL = 'logout'
 
 
 # Configurações do Storage 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 
 INSTALLED_APPS = [
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'social_django',
     'dashboard',
     'bootstrap4',
+    'storages',
 ]
 
 MIDDLEWARE = [

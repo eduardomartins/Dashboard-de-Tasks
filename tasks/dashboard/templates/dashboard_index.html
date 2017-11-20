@@ -79,8 +79,14 @@
         {% for tarefa in tarefas %}
         <div class="col-sm-12 col-md-6 col-lg-4">
             <div class="card">
-                <h4 class="card-header"> {{ tarefa.nome }}   <span class="badge badge-warning float-right"> <i class="fa fa-spinner" aria-hidden="true"></i>
-                    {{ tarefa.status }} </span></h4>    
+                <div class="card-header"> 
+                    <h4 style="display: inline-block;"> {{ tarefa.nome }} </h4>
+                    {% if tarefa.status != 'done' %}
+                        <span class="badge badge-warning float-right"> {{ tarefa.status }} </span>
+                    {% else %}
+                        <span class="badge badge-success float-right"> {{ tarefa.status }} </span>
+                    {% endif %}
+                </div>
                 <div class="card-body">
                     <p class="card-text">
                         {{ tarefa.descricao }}
@@ -89,20 +95,34 @@
                 <ul class="list-group list-group-flush">
                         <li class="list-group-item"> <strong> Prioridade: </strong> {{ tarefa.prioridade }} </li>
                     <li class="list-group-item"> <strong> Criado por: </strong> {{ tarefa.criado_por }} </li>
-                        
-  
-                </ul>
-                
+                </ul>          
                 <div class="card-body">
                     {% if tarefa.anexo_set.all.count > 0 %}
-                    <h5 class="card-title"> Anexos  <span class="badge badge-info"> {{ tarefa.anexo_set.all.count }} </span></h5>
-                    {% for anexo in tarefa.anexo_set.all %}
-                        <a href="{{ anexo.arquivo.url }}" class="btn btn-clear btn-block text-left" title="Clique para ver o anexo"> <i class="fa fa-file" aria-hidden="true"></i> {{ anexo.filename }} </a>
-                    {% endfor %}
+                        <h5 class="card-title"> Anexos  <span class="badge badge-info"> {{ tarefa.anexo_set.all.count }} </span></h5>
+                        {% for anexo in tarefa.anexo_set.all %}
+                            <a href="{{ anexo.arquivo.url }}" class="btn btn-clear btn-block text-left" title="Clique para ver o anexo">
+                                <i class="fa fa-file" aria-hidden="true"></i> 
+                                {{ anexo.filename }}
+                            </a>
+                        {% endfor %}
                     {% endif %}
                     <br>
-                    <a href="#" data-url="{% url 'dashboard:excluir-tarefa' pk=tarefa.pk  %}" data-toggle="modal" data-target="#excluir" class="btn btn-danger">   <i class="fa fa-trash-o fa-lg"></i>  Excluir </a>
-                    <a class="btn btn-secondary" href="{% url 'dashboard:editar-tarefa' pk=tarefa.pk  %}"> <i class="fa fa-pencil fa-fw"></i> Editar </a>
+                    <form action="{% url 'dashboard:status-tarefa' %}" method="POST">
+                        {% csrf_token%}
+                        <input type="hidden" name="pk" value="{{ tarefa.id }}"/>
+                        <button type="button" value="{{ tarefa.id }}" data-toggle="modal" data-target="#excluir" class="btn btn-danger">  
+                            <i class="fa fa-trash-o fa-fw"></i> Excluir 
+                        </button>
+                        <a class="btn btn-secondary" href="{% url 'dashboard:editar-tarefa' pk=tarefa.pk  %}"> 
+                            <i class="fa fa-pencil fa-fw"></i> Editar 
+                        </a>
+                        {% if tarefa.status != 'done' %}
+                        <button class="btn btn-success float-right" name="status" type="submit" value="processada"> 
+                            <i class="fa fa-check fa-fw"></i> Done 
+                        </button> 
+                        {% endif %}
+                    </form>    
+                
                 </div>
             </div>
         </div>
@@ -114,7 +134,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title"> Deseja realmente excluir a terefa?</h5>
+            <h5 class="modal-title"> Deseja realmente excluir a terefa? </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -123,8 +143,12 @@
             <p> Depois de excluído, não é será mais possível recuperar os dados</p>
         </div>
         <div class="modal-footer">
-            <a class="btn btn-danger" href="" id="target-url"> Excluir </a>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancelar </button>
+            <form action="{% url 'dashboard:excluir-tarefa' %}" method="POST">
+                {% csrf_token%}
+                <button type="submit" name="pk" value="" class="btn btn-danger" id="target-button"> Excluir </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancelar </button>
+            </form>        
+        
         </div>
         </div>
     </div>
@@ -133,12 +157,11 @@
 {% endblock conteudo %}
 
 {% block scripts %}
-<script>
+    <script>
         $(document).ready(function(){
-            $('a[data-target="#excluir"]').click(function(event){
-                $("#target-url").attr('href', $(this).attr("data-url"))
+            $('[data-target="#excluir"]').click(function(event){
+                $('#target-button').attr('value', $(this).attr("value"))
             });
         });
     </script>
-    
 {% endblock %}

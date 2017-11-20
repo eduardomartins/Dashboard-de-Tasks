@@ -15,29 +15,32 @@
         <div class="col-sm-12 col-md-6"> 
         {% if salvo %}
         <div class="card">
-                <h4 class="card-header"> {{ tarefa.nome }}   <span class="badge badge-warning float-right"> <i class="fa fa-spinner" aria-hidden="true"></i>
-                    {{ tarefa.status }} </span></h4>    
+                <h4 class="card-header"> {{ tarefa.nome }} 
+                    <span class="badge badge-warning float-right">
+                        <i class="fa fa-spinner" aria-hidden="true"></i>
+                        {{ tarefa.status }} 
+                    </span>
+                    </h4>    
                 <div class="card-body">
                     <p class="card-text">
                         {{ tarefa.descricao }}
                     </p>
                 </div>
                 <ul class="list-group list-group-flush">
-                        <li class="list-group-item"> <strong> Prioridade: </strong> {{ tarefa.prioridade }} </li>
+                    <li class="list-group-item"> <strong> Prioridade: </strong> {{ tarefa.prioridade }} </li>
                     <li class="list-group-item"> <strong> Criado por: </strong> {{ tarefa.criado_por }} </li>
-                        
-  
                 </ul>
-                
                 <div class="card-body">
                     {% if tarefa.anexo_set.all.count > 0 %}
-                    <h5 class="card-title"> Anexos  <span class="badge badge-info"> {{ tarefa.anexo_set.all.count }} </span></h5>
+                    <h5 class="card-title"> Anexos 
+                        <span class="badge badge-info"> {{ tarefa.anexo_set.all.count }} </span>
+                    </h5>
                         {% for anexo in tarefa.anexo_set.all %}
                             <a href="{{ anexo.arquivo.url }}" class="btn btn-clear btn-block text-left" title="Clique para ver o anexo"> 
                                 <i class="fa fa-file" aria-hidden="true"></i> {{ anexo.filename }} 
                             </a>
                         {% endfor %}
-                        {% endif %}
+                    {% endif %}
                     <br>
                     <a class="btn btn-primary" href="{% url 'dashboard:index' %}"> <i class="fa fa-arrow-left fa-fw"></i> Voltar ao dashboard </a>         
                     <a class="btn btn-secondary" href="{% url 'dashboard:editar-tarefa' pk=tarefa.pk  %}"> <i class="fa fa-pencil fa-fw"></i> Editar </a>
@@ -47,6 +50,10 @@
             <div class="card">
                 <h4 class="card-header"> Editar tarefa </h4>
                 <div class="card-body">
+                    <form id="anexo" action="{% url 'dashboard:excluir-anexo'%}" method="POST">
+                        {% csrf_token %}
+                    </form>
+
                     <form method="POST" action="."  enctype="multipart/form-data">
                         {% csrf_token %}
                         {% bootstrap_form form_task %}
@@ -63,7 +70,7 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <p class="dropdown-header"> Tem certeza que deseja realmente excluiro arquivo? </p>
                                 <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                    <a class="dropdown-item" href="{% url 'dashboard:excluir-anexo' pk=anexo.id %}"> <span class="btn btn-danger">Sim</span> </a>
+                                    <button form="anexo" class="dropdown-item" type="submit" name="pk" value="{{ anexo.id }}"> <span class="btn btn-danger">Sim</span> </button>
                                     <a class="dropdown-item" href="javascript:void(0);"> <span class="btn btn-secondary"> Não</span> </a>
                                 </div>
                                 
