@@ -33,6 +33,8 @@ $ pip install -r requirements.txt
 
 ### Para executar
 
+**OBSERVAÇÃO: No diretório "Dashboard-de-Tasks/tasks/tasks/" tem um arquivo secrets.py.zip com algumas informações "sensíveis", porém necessárias para a aplicação. Para executá-la, e só descompactar o arquivo no próprio local, usando a senha**
+
 Entre na pasta tasks
 
 tasks/
